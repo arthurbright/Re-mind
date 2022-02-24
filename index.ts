@@ -42,7 +42,7 @@ let main;
 //check if any reminders must be posted
 setInterval(()=>{
     main.send("hey");
-}, 3000)
+}, 30000)
 
 client.on("messageCreate", (message) =>{
     if(message.author.bot) return; //ignore bot messages
