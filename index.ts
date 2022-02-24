@@ -2,6 +2,7 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 const {Client, Intents} = require('discord.js');
+const http = require('http');
 
 //login to the client
 
@@ -44,5 +45,20 @@ client.on("messageCreate", (message) =>{
     if(message.content === 'ooga'){
         message.author.send("booga");
     }
-    
+
 })
+
+
+
+
+
+
+
+//connecting to port to prevent crash
+const PORT = process.env.PORT || 3000;
+const server = http.createServer((req, res) =>{
+    res.end('hi');
+});
+server.listen(PORT, ()=>{
+    console.log("server runnin");
+});
