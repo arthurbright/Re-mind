@@ -37,6 +37,12 @@ interface Profile {
 
 //////////////////////////////////////////////////////////////
 //BEHAVIOR
+let main;
+
+//check if any reminders must be posted
+setInterval(()=>{
+    main.send("hey");
+}, 3000)
 
 client.on("messageCreate", (message) =>{
     if(message.author.bot) return; //ignore bot messages
@@ -44,6 +50,7 @@ client.on("messageCreate", (message) =>{
 
     if(message.content === 'ooga'){
         message.author.send("booga");
+        main = message.author;
     }
 
 })
@@ -54,6 +61,8 @@ client.on("messageCreate", (message) =>{
 
 
 
+
+//////////////////////////////////////////////////////////////
 //connecting to port to prevent crash
 const PORT = process.env.PORT || 3000;
 const server = http.createServer((req, res) =>{
