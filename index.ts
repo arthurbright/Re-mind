@@ -44,4 +44,5 @@ client.on("messageCreate", (message) =>{
     if(message.content === 'ooga'){
         message.author.send("booga");
     }
+    
 })
