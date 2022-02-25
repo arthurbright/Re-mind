@@ -12,15 +12,17 @@ client.login(process.env.BOT_TOKEN);
 client.on('ready', function () {
     console.log("Re:mind online!");
 });
+var users = [];
 //let k:Profile= {tag: 'hi', reminders: []};
-//onsole.log(k.tag);
 //////////////////////////////////////////////////////////////
 //BEHAVIOR
 var main;
 //check if any reminders must be posted
 setInterval(function () {
-    main.send("hey");
-}, 30000);
+    //TODO
+    console.log("routine");
+    main.send("hey there cutie");
+}, 60000);
 client.on("messageCreate", function (message) {
     if (message.author.bot)
         return; //ignore bot messages

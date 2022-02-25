@@ -26,13 +26,15 @@ interface Reminder {
 }
 
 interface Profile {
-    tag: string;
+    user;
     reminders: Reminder[];
 }
 
+let users: Profile[] = [];
+
 //let k:Profile= {tag: 'hi', reminders: []};
 
-//onsole.log(k.tag);
+
 
 
 //////////////////////////////////////////////////////////////
@@ -41,8 +43,12 @@ let main;
 
 //check if any reminders must be posted
 setInterval(()=>{
-    main.send("hey");
-}, 30000)
+
+
+    //TODO
+    console.log("routine");
+    main.send("hey there cutie");
+}, 60000)
 
 client.on("messageCreate", (message) =>{
     if(message.author.bot) return; //ignore bot messages
