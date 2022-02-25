@@ -45,14 +45,17 @@ let main;
 setInterval(()=>{
 
 
-    //TODO
-    console.log("routine");
+    //ping server to keep awake
     main.send("hey there cutie");
+    if(!process.env.LOCAL){
+        http.get("http://re--mind.herokuapp.com/");
+    }
+
+
 }, 60000)
 
 client.on("messageCreate", (message) =>{
     if(message.author.bot) return; //ignore bot messages
-    console.log('hi');
 
     if(message.content === 'ooga'){
         message.author.send("booga");
@@ -72,6 +75,7 @@ client.on("messageCreate", (message) =>{
 //connecting to port to prevent crash
 const PORT = process.env.PORT || 3000;
 const server = http.createServer((req, res) =>{
+    console.log("pinged");
     res.end('hi');
 });
 server.listen(PORT, ()=>{

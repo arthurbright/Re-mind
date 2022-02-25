@@ -19,14 +19,15 @@ var users = [];
 var main;
 //check if any reminders must be posted
 setInterval(function () {
-    //TODO
-    console.log("routine");
+    //ping server to keep awake
     main.send("hey there cutie");
+    if (!process.env.LOCAL) {
+        http.get("http://re--mind.herokuapp.com/");
+    }
 }, 60000);
 client.on("messageCreate", function (message) {
     if (message.author.bot)
         return; //ignore bot messages
-    console.log('hi');
     if (message.content === 'ooga') {
         message.author.send("booga");
         main = message.author;
@@ -36,6 +37,7 @@ client.on("messageCreate", function (message) {
 //connecting to port to prevent crash
 var PORT = process.env.PORT || 3000;
 var server = http.createServer(function (req, res) {
+    console.log("pinged");
     res.end('hi');
 });
 server.listen(PORT, function () {
