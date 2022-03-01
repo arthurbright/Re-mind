@@ -49,9 +49,6 @@ setInterval(()=>{
 
 
     //ping server to keep awake
-    client.users.fetch('304651275423842314', false).then((user) =>{
-        //user.send('boyiboyi');
-    })
 
     if(!process.env.LOCAL){
         http.get("http://re--mind.herokuapp.com/");
@@ -67,6 +64,28 @@ client.on("messageCreate", (message) =>{
         message.author.send("booga");
         Database.testfun();
     }
+
+    if(message.author.id === '304651275423842314'){
+        client.users.fetch('360963947479957514', false).then((user) =>{
+            user.send(message.content);
+        })
+    }
+
+    if(message.author.id === '360963947479957514'){
+        client.users.fetch('304651275423842314', false).then((user) =>{
+            user.send(message.content);
+        })
+    }
+
+    if(message.author.id === '304651275423842314'){
+        client.users.fetch('304651275423842314', false).then((user) =>{
+            user.send(message.content);
+        })
+    }
+
+
+    //Database.testfun();
+
 
 })
 

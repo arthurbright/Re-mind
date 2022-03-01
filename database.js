@@ -6,6 +6,8 @@ var collection = null;
 client.connect(err => {
     if(err){
         console.log("Error connecting to database");
+        console.log(err);
+        return;
     }
   collection = client.db("main").collection("profiles");
   console.log('Connected to database!');
