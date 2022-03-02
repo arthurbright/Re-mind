@@ -16,7 +16,6 @@ client.login(process.env.BOT_TOKEN);
 client.on('ready', function () {
     console.log("Re:mind online!");
 });
-var users = [];
 //let k:Profile= {tag: 'hi', reminders: []};
 //////////////////////////////////////////////////////////////
 //BEHAVIOR
@@ -26,28 +25,31 @@ setInterval(function () {
     if (!process.env.LOCAL) {
         http.get("http://re--mind.herokuapp.com/");
     }
-}, 10000);
+}, 30000);
 client.on("messageCreate", function (message) {
     if (message.author.bot)
         return; //ignore bot messages
-    if (message.content === 'ooga') {
-        message.author.send("booga");
-        Database.testfun();
-    }
-    if (message.author.id === '304651275423842314') {
-        client.users.fetch('360963947479957514', false).then(function (user) {
+    /*
+    if(message.author.id === '304651275423842314'){
+        client.users.fetch('360963947479957514', false).then((user) =>{
             user.send(message.content);
-        });
+        })
     }
-    if (message.author.id === '360963947479957514') {
-        client.users.fetch('304651275423842314', false).then(function (user) {
+
+    if(message.author.id === '360963947479957514'){
+        client.users.fetch('304651275423842314', false).then((user) =>{
             user.send(message.content);
-        });
+        })
     }
-    if (message.author.id === '304651275423842314') {
-        client.users.fetch('304651275423842314', false).then(function (user) {
-            user.send(message.content);
-        });
+    */
+    if (message.content === "a") {
+        Database.testfun(Date.now(), "past reminder");
+    }
+    else if (message.content === 'b') {
+        Database.testfun(Date.now() + 60000, "future reminder");
+    }
+    else if (message.content === 'c') {
+        Database.sendReminders(client, Date.now());
     }
     //Database.testfun();
 });

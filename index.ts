@@ -25,21 +25,11 @@ client.on('ready', ()=>{
 ///////////////////////////////////////////////////////////
 //types
 interface Reminder {
+    userid: string;
+    description: string;
     time: number;
     repeat: number;
 }
-
-interface Profile {
-    user;
-    reminders: Reminder[];
-}
-
-let users: Profile[] = [];
-
-//let k:Profile= {tag: 'hi', reminders: []};
-
-
-
 
 //////////////////////////////////////////////////////////////
 //BEHAVIOR
@@ -47,24 +37,21 @@ let users: Profile[] = [];
 //check if any reminders must be posted
 setInterval(()=>{
 
-
     //ping server to keep awake
-
     if(!process.env.LOCAL){
         http.get("http://re--mind.herokuapp.com/");
     }
 
+    //check for reminders
+    Database.sendReminders(client, Date.now());
 
-}, 10000)
+
+}, 30000)
 
 client.on("messageCreate", (message) =>{
     if(message.author.bot) return; //ignore bot messages
 
-    if(message.content === 'ooga'){
-        message.author.send("booga");
-        Database.testfun();
-    }
-
+    /* code for dming felix
     if(message.author.id === '304651275423842314'){
         client.users.fetch('360963947479957514', false).then((user) =>{
             user.send(message.content);
@@ -76,15 +63,19 @@ client.on("messageCreate", (message) =>{
             user.send(message.content);
         })
     }
+    */
 
-    if(message.author.id === '304651275423842314'){
-        client.users.fetch('304651275423842314', false).then((user) =>{
-            user.send(message.content);
-        })
+    if(message.content === "a"){
+        Database.debugDoc(Date.now(), "past reminder");
+    }
+    else if(message.content === 'b'){
+        Database.debugDoc(Date.now() + 60000, "future reminder");
+    }
+    else if(message.content === 'c'){
+        Database.sendReminders(client, Date.now());
     }
 
 
-    //Database.testfun();
 
 
 })
