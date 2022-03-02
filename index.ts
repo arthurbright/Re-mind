@@ -4,6 +4,7 @@ const Discord = require('discord.js');
 const {Client, Intents} = require('discord.js');
 const http = require('http');
 const Database = require('./database.js');
+const Responses = require('./responses.js');
 
 //login to the client
 
@@ -46,11 +47,12 @@ setInterval(()=>{
     Database.sendReminders(client, Date.now());
 
 
-}, 30000)
+}, 120000)
 
 client.on("messageCreate", (message) =>{
     if(message.author.bot) return; //ignore bot messages
 
+    //debug code
     /* code for dming felix
     if(message.author.id === '304651275423842314'){
         client.users.fetch('360963947479957514', false).then((user) =>{
@@ -65,17 +67,25 @@ client.on("messageCreate", (message) =>{
     }
     */
 
-    if(message.content === "a"){
-        Database.debugDoc(Date.now(), "past reminder");
-    }
-    else if(message.content === 'b'){
-        Database.debugDoc(Date.now() + 60000, "future reminder");
-    }
-    else if(message.content === 'c'){
-        Database.sendReminders(client, Date.now());
-    }
+    ///////////////////////////direct message code
+    if(message.channel.type === "DM"){
+        let words = message.content.split(" ");
 
 
+        ////get list of all current reminds
+        if(words[0] === "get"){
+            Database.getReminders(message.author.id).then((arr)=>{
+                Responses.sendArr(message.author, arr);
+            });
+        }
+        ////set a reminder
+        else if(words[0] === "set"){
+            Database.addReminder(message.author.id, words[1], Date.now(), 0);
+        }
+
+
+
+    }
 
 
 })

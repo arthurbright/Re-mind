@@ -4,6 +4,7 @@ var Discord = require('discord.js');
 var _a = require('discord.js'), Client = _a.Client, Intents = _a.Intents;
 var http = require('http');
 var Database = require('./database.js');
+var Responses = require('./responses.js');
 //login to the client
 var client = new Client({
     intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES],
@@ -26,10 +27,11 @@ setInterval(function () {
     }
     //check for reminders
     Database.sendReminders(client, Date.now());
-}, 30000);
+}, 120000);
 client.on("messageCreate", function (message) {
     if (message.author.bot)
         return; //ignore bot messages
+    //debug code
     /* code for dming felix
     if(message.author.id === '304651275423842314'){
         client.users.fetch('360963947479957514', false).then((user) =>{
@@ -43,14 +45,19 @@ client.on("messageCreate", function (message) {
         })
     }
     */
-    if (message.content === "a") {
-        Database.debugDoc(Date.now(), "past reminder");
-    }
-    else if (message.content === 'b') {
-        Database.debugDoc(Date.now() + 60000, "future reminder");
-    }
-    else if (message.content === 'c') {
-        Database.sendReminders(client, Date.now());
+    ///////////////////////////direct message code
+    if (message.channel.type === "DM") {
+        var words = message.content.split(" ");
+        ////get list of all current reminds
+        if (words[0] === "get") {
+            Database.getReminders(message.author.id).then(function (arr) {
+                Responses.sendArr(message.author, arr);
+            });
+        }
+        ////set a reminder
+        else if (words[0] === "set") {
+            Database.addReminder(message.author.id, words[1], Date.now(), 0);
+        }
     }
 });
 //////////////////////////////////////////////////////////////

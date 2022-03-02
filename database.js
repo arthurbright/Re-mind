@@ -22,17 +22,16 @@ async function sendReminders(client,  curtime){
     });
 
     //do something with each one
-    //TODO
-    await cursor.forEach((doc) =>{
-        console.log(doc.description);
+    await cursor.forEach(async (doc) =>{
+        user = await client.users.fetch(doc.userid, false)
+        user.send(doc.description + " has expired!"); //send user the reminder
+        
     });
 
     //delete expired reminders
     db.collection('profiles').deleteMany({
         time: {$lt: curtime}
     });
-
-
 }
 
 
@@ -41,5 +40,37 @@ function debugDoc(time, desc){
 }
 
 
+function addReminder(userid, description, time, repeat){
+    db.collection('profiles').insertOne({
+        "time": time, "description": description, "userid": userid, "repeat": repeat})
+}
+
+async function getReminders(userid_){
+    
+    let arr = [];
+
+     //query all reminders by the user
+     let cursor = db.collection('profiles').find({
+        userid: userid_
+    });
+
+     //do something with each one
+    //TODO
+    await cursor.forEach((doc) =>{
+        arr.push({
+            "time": doc.time,
+            "description": doc.description,
+            "userid": userid_,
+            "repeat": doc.repeat,
+            "id": doc._id
+        })
+    });
+
+    return arr;
+}
+
+
 module.exports.debugDoc = debugDoc;
 module.exports.sendReminders = sendReminders;
+module.exports.addReminder = addReminder;
+module.exports.getReminders = getReminders;
