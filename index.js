@@ -16,7 +16,6 @@ client.login(process.env.BOT_TOKEN);
 client.on('ready', function () {
     console.log("Re:mind online!");
 });
-//let k:Profile= {tag: 'hi', reminders: []};
 //////////////////////////////////////////////////////////////
 //BEHAVIOR
 //check if any reminders must be posted
@@ -25,11 +24,13 @@ setInterval(function () {
     if (!process.env.LOCAL) {
         http.get("http://re--mind.herokuapp.com/");
     }
+    //check for reminders
+    Database.sendReminders(client, Date.now());
 }, 30000);
 client.on("messageCreate", function (message) {
     if (message.author.bot)
         return; //ignore bot messages
-    /*
+    /* code for dming felix
     if(message.author.id === '304651275423842314'){
         client.users.fetch('360963947479957514', false).then((user) =>{
             user.send(message.content);
@@ -43,15 +44,14 @@ client.on("messageCreate", function (message) {
     }
     */
     if (message.content === "a") {
-        Database.testfun(Date.now(), "past reminder");
+        Database.debugDoc(Date.now(), "past reminder");
     }
     else if (message.content === 'b') {
-        Database.testfun(Date.now() + 60000, "future reminder");
+        Database.debugDoc(Date.now() + 60000, "future reminder");
     }
     else if (message.content === 'c') {
         Database.sendReminders(client, Date.now());
     }
-    //Database.testfun();
 });
 //////////////////////////////////////////////////////////////
 //connecting to port to prevent crash
