@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = "mongodb+srv://remindusername:" + process.env.MONGOPW + "@cluster0.ph2km.mongodb.net/main?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
@@ -23,9 +24,14 @@ async function sendReminders(client,  curtime){
 
     //do something with each one
     await cursor.forEach(async (doc) =>{
+
+        //fetch each user and send the reminder
         user = await client.users.fetch(doc.userid, false)
-        user.send(doc.description + " has expired!"); //send user the reminder
-        
+        const embed = new Discord.MessageEmbed()
+        .setColor('#26fffb')
+        .setTitle("Reminder: " + doc.description);
+
+        user.send({embeds: [embed]});
     });
 
     //delete expired reminders
@@ -35,14 +41,14 @@ async function sendReminders(client,  curtime){
 }
 
 
-function debugDoc(time, desc){
-    db.collection('profiles').insertOne({"time": time, "description": desc});
-}
 
-
-function addReminder(userid, description, time, repeat){
+function addReminder(rem){
     db.collection('profiles').insertOne({
-        "time": time, "description": description, "userid": userid, "repeat": repeat})
+        "time": rem.time,
+        "description": rem.description,
+        "repeat": rem.repeat,
+        "userid": rem.userid
+    });
 }
 
 async function getReminders(userid_){
@@ -63,14 +69,12 @@ async function getReminders(userid_){
             "userid": userid_,
             "repeat": doc.repeat,
             "id": doc._id
-        })
+        });
     });
 
     return arr;
 }
 
-
-module.exports.debugDoc = debugDoc;
 module.exports.sendReminders = sendReminders;
 module.exports.addReminder = addReminder;
 module.exports.getReminders = getReminders;

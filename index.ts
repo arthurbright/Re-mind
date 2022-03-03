@@ -47,25 +47,10 @@ setInterval(()=>{
     Database.sendReminders(client, Date.now());
 
 
-}, 120000)
+}, 60000)
 
 client.on("messageCreate", (message) =>{
     if(message.author.bot) return; //ignore bot messages
-
-    //debug code
-    /* code for dming felix
-    if(message.author.id === '304651275423842314'){
-        client.users.fetch('360963947479957514', false).then((user) =>{
-            user.send(message.content);
-        })
-    }
-
-    if(message.author.id === '360963947479957514'){
-        client.users.fetch('304651275423842314', false).then((user) =>{
-            user.send(message.content);
-        })
-    }
-    */
 
     ///////////////////////////direct message code
     if(message.channel.type === "DM"){
@@ -80,7 +65,14 @@ client.on("messageCreate", (message) =>{
         }
         ////set a reminder
         else if(words[0] === "set"){
-            Database.addReminder(message.author.id, words[1], Date.now(), 0);
+            let rem:Reminder = {
+                userid: message.author.id,
+                description: words[1],
+                time: Date.now() + 60 * 1000 * parseInt(words[2]),
+                repeat: 0
+            }
+            Database.addReminder(rem);
+            Responses.confirmAdd(message.author, rem);
         }
 
 
