@@ -62,7 +62,7 @@ function confirmAdd(user, rem){
 function illegal(user){
     const embed = new Discord.MessageEmbed()
         .setColor('#f71e16')
-        .setTitle("ILLEGAL SYNTAX, ONI-CHAN");
+        .setTitle("ILLEGAL SYNTAX ONII-CHAN");
 
     user.send({embeds: [embed]});
 }
