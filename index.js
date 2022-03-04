@@ -35,13 +35,18 @@ client.on("messageCreate", function (message) {
     if (message.channel.type === "DM") {
         var words = message.content.split(" ");
         ////get list of all current reminds
-        if (words[0] === "get") {
+        if (words[0].toLowerCase() === "get") {
             Database.getReminders(message.author.id).then(function (arr) {
                 Responses.sendArr(message.author, arr);
             });
         }
         ////set a reminder
-        else if (words[0] === "set") {
+        else if (words[0].toLowerCase() === "set") {
+            var inputTime = parseInt(words[2]);
+            if (isNaN(inputTime) || words[1] == null) {
+                Responses.illegal(message.author);
+                return;
+            }
             var rem = {
                 userid: message.author.id,
                 description: words[1],

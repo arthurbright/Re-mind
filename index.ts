@@ -58,13 +58,19 @@ client.on("messageCreate", (message) =>{
 
 
         ////get list of all current reminds
-        if(words[0] === "get"){
+        if(words[0].toLowerCase() === "get"){
             Database.getReminders(message.author.id).then((arr)=>{
                 Responses.sendArr(message.author, arr);
             });
         }
         ////set a reminder
-        else if(words[0] === "set"){
+        else if(words[0].toLowerCase() === "set"){
+            let inputTime = parseInt(words[2]);
+            if(isNaN(inputTime) || words[1] == null){
+                Responses.illegal(message.author);
+                return;
+            }
+
             let rem:Reminder = {
                 userid: message.author.id,
                 description: words[1],

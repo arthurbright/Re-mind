@@ -35,15 +35,15 @@ function sendArr(user, arr){
 function timeToString(milli){
     let sec = milli /1000;
     if(sec < 60 * 60){ //in an hour: just say minutes
-        let str = Math.floor(sec/60) + " minutes"
+        let str = Math.round(sec/60) + " minutes"
         return str;
     }
     else if(sec < 60 * 60 * 24){ //in a day: hours + minutes
-        let str = Math.floor(sec/(60 * 60)) + " hours, " +  Math.floor((sec/60) % 60) + " minutes";
+        let str = Math.round(sec/(60 * 60)) + " hours, " +  Math.round((sec/60) % 60) + " minutes";
         return str;
     }
     else{ //in a week: just say days
-        let str = Math.floor(sec/(60 * 60 * 24)) + " days";
+        let str = Math.round(sec/(60 * 60 * 24)) + " days";
         return str;
     }
 }
@@ -58,6 +58,16 @@ function confirmAdd(user, rem){
  
 }
 
+
+function illegal(user){
+    const embed = new Discord.MessageEmbed()
+        .setColor('#f71e16')
+        .setTitle("ILLEGAL SYNTAX, ONI-CHAN");
+
+    user.send({embeds: [embed]});
+}
+
+module.exports.illegal = illegal;
 module.exports.sendArr = sendArr;
 module.exports.timeToString = timeToString;
 module.exports.confirmAdd = confirmAdd;
