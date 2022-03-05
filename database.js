@@ -16,7 +16,8 @@ client.connect(err => {
 });
 
 async function sendReminders(client,  curtime){
-
+    //keep an array of repeat alarms to set later
+    let repeats = [];
     //query all expired reminders
     let cursor = db.collection('profiles').find({
         time: {$lt: curtime}
@@ -32,12 +33,22 @@ async function sendReminders(client,  curtime){
         .setTitle("Reminder: " + doc.description);
 
         user.send({embeds: [embed]});
+        if(doc.repeat != 0){
+            repeats.push(doc);
+        }
     });
 
     //delete expired reminders
-    db.collection('profiles').deleteMany({
+    await db.collection('profiles').deleteMany({
         time: {$lt: curtime}
     });
+
+    //add repeat reminders
+    for(i = 0; i < repeats.length; i ++){
+        let rem = repeats[i];
+        rem.time += rem.repeat;
+        addReminder(rem);
+    }
 }
 
 

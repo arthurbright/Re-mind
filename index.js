@@ -53,6 +53,10 @@ client.on("messageCreate", function (message) {
                 time: Date.now() + 60 * 1000 * parseInt(words[2]),
                 repeat: 0
             };
+            var repeatTime = parseInt(words[3]);
+            if (!isNaN(repeatTime) && repeatTime >= 1) {
+                rem.repeat = repeatTime * 60 * 1000;
+            }
             Database.addReminder(rem);
             Responses.confirmAdd(message.author, rem);
         }
