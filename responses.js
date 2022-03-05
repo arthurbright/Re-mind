@@ -39,7 +39,7 @@ function timeToString(milli){
         return str;
     }
     else if(sec < 60 * 60 * 24){ //in a day: hours + minutes
-        let str = Math.round(sec/(60 * 60)) + " hours, " +  Math.round((sec/60) % 60) + " minutes";
+        let str = Math.floor(sec/(60 * 60)) + " hours, " +  Math.floor((sec/60) % 60) + " minutes";
         return str;
     }
     else{ //in a week: just say days
