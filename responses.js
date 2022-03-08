@@ -49,20 +49,53 @@ function timeToString(milli){
 }
 
 
+const minwords = ["m", "mins", "min", "minute", "minutes"];
+const hourwords = ["h", "hour", "hours"];
+const daywords = ["d", "day", "days"];
+
+//converts ie (5, "min") to milliseconds
+function stringToTime(num, unit){
+    if(isNaN(num) || num < 1){
+        return null;
+    }
+    if(minwords.includes(unit)){
+        return num * 1000 * 60;
+    }
+    else if(hourwords.includes(unit)){
+        return num * 1000 * 60 * 60;
+    }
+    else if(daywords.includes(unit)){
+        return num * 1000 * 60 * 60 * 24;
+    }
+    return null;
+    
+
+}
+
+
 function confirmAdd(user, rem){
-    const embed = new Discord.MessageEmbed()
+
+    let embed = new Discord.MessageEmbed()
         .setColor('#26fffb')
         .setTitle('"' + rem.description + '": Set to ping in ' + timeToString(rem.time - Date.now()) + ".");
+    if(rem.repeat != 0){
+        embed.setDescription('Repeats every ' + timeToString(rem.rep) + ".")
+    }
 
     user.send({embeds: [embed]});
  
 }
 
-
+errorMessages = ["Illegal syntax",
+                "Illegal syntax... baka",
+                "uwu iwegal syntax uwu",
+                "Illegal syntax onii-chan",
+                "Yamete kudasai"]
 function illegal(user){
+    let str = errorMessages(Math.floor(Math.random() * errorMessages.length));
     const embed = new Discord.MessageEmbed()
         .setColor('#f71e16')
-        .setTitle("ILLEGAL SYNTAX ONII-CHAN");
+        .setTitle(str);
 
     user.send({embeds: [embed]});
 }
@@ -71,3 +104,4 @@ module.exports.illegal = illegal;
 module.exports.sendArr = sendArr;
 module.exports.timeToString = timeToString;
 module.exports.confirmAdd = confirmAdd;
+module.exports.stringToTime = stringToTime;

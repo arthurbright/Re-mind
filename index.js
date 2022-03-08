@@ -27,7 +27,7 @@ setInterval(function () {
     }
     //check for reminders
     Database.sendReminders(client, Date.now());
-}, 60000);
+}, 30000);
 client.on("messageCreate", function (message) {
     if (message.author.bot)
         return; //ignore bot messages
@@ -42,21 +42,54 @@ client.on("messageCreate", function (message) {
         }
         ////set a reminder
         else if (words[0].toLowerCase() === "set") {
-            var inputTime = parseInt(words[2]);
-            if (isNaN(inputTime) || words[1] == null) {
+            //read in one time time indicator
+            acc = 0;
+            rep = 0;
+            let inputTime = parseFloat(words[2]);
+            let inputUnit = (words[3]);
+            let inputParsed = Responses.stringToTime(inputTime, inputUnit);
+            if (inputParsed === null) {
                 Responses.illegal(message.author);
                 return;
             }
+            acc += inputParsed;
+
+            //read optional following indicators
+            i = 5;
+            for(; i < words.length; i += 2){
+                if(words[i - 1].toLowerCase().startsWith("r")){
+                    break; //start reading the repeat time
+                }
+                inputTime = parseFloat(words[i - 1]);
+                inputUnit = (words[i]);
+                inputParsed = Responses.stringToTime(inputTime, inputUnit);
+                if (inputParsed === null) {
+                    Responses.illegal(message.author);
+                    return;
+                }
+                acc += inputParsed;
+
+            }
+            //start reading the repeat time
+            ++i;
+            for(; i < words.length; i += 2){
+                inputTime = parseFloat(words[i - 1]);
+                inputUnit = (words[i]);
+                inputParsed = Responses.stringToTime(inputTime, inputUnit);
+                if (inputParsed === null) {
+                    Responses.illegal(message.author);
+                    return;
+                }
+                rep += inputParsed;
+            }
+
+            //store the reminder
             var rem = {
                 userid: message.author.id,
                 description: words[1],
-                time: Date.now() + 60 * 1000 * parseInt(words[2]),
-                repeat: 0
+                time: Date.now() + acc,
+                repeat: rep
             };
-            var repeatTime = parseInt(words[3]);
-            if (!isNaN(repeatTime) && repeatTime >= 1) {
-                rem.repeat = repeatTime * 60 * 1000; 
-            }
             Database.addReminder(rem);
             Responses.confirmAdd(message.author, rem);
         }
