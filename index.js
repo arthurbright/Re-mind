@@ -95,7 +95,7 @@ client.on("messageCreate", function (message) {
         }
         else if (words[0].toLowerCase() === "delete") {
             let num = parseInt(words[1]);
-            if(isNan(num) || num < 1){
+            if(isNaN(num) || num < 1){
                 Responses.illegal(message.author);
                 return;
             }
