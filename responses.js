@@ -79,7 +79,7 @@ function confirmAdd(user, rem){
         .setColor('#26fffb')
         .setTitle('"' + rem.description + '": Set to ping in ' + timeToString(rem.time - Date.now()) + ".");
     if(rem.repeat != 0){
-        embed.setDescription('Repeats every ' + timeToString(rem.rep) + ".")
+        embed.setDescription('Repeats every ' + timeToString(rem.repeat) + ".")
     }
 
     user.send({embeds: [embed]});
