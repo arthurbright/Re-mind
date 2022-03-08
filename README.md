@@ -1,5 +1,7 @@
 # Re:mind
 Your friendly neighborhood reminder bot; set reminders and recieve pings whenever you want.
+Add Re:mind to a server here: https://discord.com/oauth2/authorize?client_id=946206070030864415&permissions=0&scope=bot
+(Discord will only let a bot DM a user if they share a server in common)
 
 ## Commands
 All commands must be executed in a Direct Message channel with Re:mind.
