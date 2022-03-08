@@ -6,21 +6,24 @@ Add Re:mind to a server here: https://discord.com/oauth2/authorize?client_id=946
 
 ## Commands
 All commands must be executed in a Direct Message channel with Re:mind.
-
 List of all commands:
 
-- `get`: view a list of all reminders that have been set
+### `get`
+View a list of all reminders that have been set.
 
-- `delete n`: delete the nth reminder on the list provided by `get`
+### `delete n`
+Delete the nth reminder on the list provided by `get`
 
-- `set NAME [time]`: set a reminder with name `NAME` to ping in a set amount of time. `NAME` cannot contain spaces.
+### `set [NAME] [TIME]`
+Set a reminder with name `NAME` to ping in `TIME`. `NAME` cannot contain spaces.  
 Example: `set getlaundry 1 hour 3 mins`
 
-- `set NAME [time] r [time2]`: set a reminder with name `NAME` to ping in a set amount of time and repeat every `time2`. `NAME` cannot contain spaces.
+### `set NAME [TIME1] r [TIME2]`
+Set a reminder with name `NAME` to ping in `TIME` and repeat every `TIME2`. `NAME` cannot contain spaces.  
 Example: `set WORKOUT 5 mins r 2 days`
-
 ## Time Specification
 Times can be specified as pairs `number, unit`, where `unit` is in minutes, hours, or days. For example: `5 mins`
+
 Re:mind is very flexible in reading units. For example, "m", "min", "mins", "minutes", "minute" will all be recognized)!
 
 You can also chain together pairs to form more precise times. For example, the following are all valid time specifications:
