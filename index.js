@@ -28,7 +28,7 @@ setInterval(function () {
     //check for reminders
     Database.sendReminders(client, Date.now());
 }, 30000);
-client.on("messageCreate", function (message) {
+client.on("messageCreate", async function (message) {
     if (message.author.bot)
         return; //ignore bot messages
     ///////////////////////////direct message code
@@ -99,8 +99,12 @@ client.on("messageCreate", function (message) {
                 Responses.illegal(message.author);
                 return;
             }
-            Database.deleteReminder(num - 1, message.author.id);
-
+            let res = await Database.deleteReminder(num - 1, message.author.id);
+            if(res === null){
+                Responses.illegal(message.author);
+                return;
+            }
+            Responses.confirmDelete(message.author, res);
         }
     }
 });

@@ -86,6 +86,13 @@ function confirmAdd(user, rem){
  
 }
 
+function confirmDelete(user, description){
+    let embed = new Discord.MessageEmbed()
+        .setColor('#26fffb')
+        .setTitle('Successfully deleted "' + description + '"!');
+    user.send({embeds: [embed]});
+}
+
 errorMessages = ["Illegal syntax",
                 "Illegal syntax... baka",
                 "uwu iwegal syntax uwu",
@@ -105,3 +112,4 @@ module.exports.sendArr = sendArr;
 module.exports.timeToString = timeToString;
 module.exports.confirmAdd = confirmAdd;
 module.exports.stringToTime = stringToTime;
+module.exports.confirmDelete = confirmDelete;

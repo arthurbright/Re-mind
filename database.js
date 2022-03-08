@@ -85,24 +85,26 @@ async function getReminders(userid_){
     return arr;
 }
 
-
+//returns null, or the name of reminder killed
 async function deleteReminder(n, userid_){
      //query all reminders by the user
      let cursor = db.collection('profiles').find({
         userid: userid_
     });
 
-    let docID;
+    let docID = null;
+    let desc = null;
     await cursor.forEach((doc) =>{
         if(n == 0){
             docID = doc._id;
+            desc = doc.description;
         }
         n--;
     });
 
     //delete the reminder
-    db.collection('profiles').deleteOne({"_id": docID});
-    return;
+    if(docID !== null) db.collection('profiles').deleteOne({"_id": docID});
+    return desc;
 }
 
 module.exports.sendReminders = sendReminders;
