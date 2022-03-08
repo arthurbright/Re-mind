@@ -1,15 +1,17 @@
 # Re:mind
 Your friendly neighborhood reminder bot; set reminders and recieve pings whenever you want.
+
 Add Re:mind to a server here: https://discord.com/oauth2/authorize?client_id=946206070030864415&permissions=0&scope=bot
 (Discord will only let a bot DM a user if they share a server in common)
 
 ## Commands
 All commands must be executed in a Direct Message channel with Re:mind.
+
 List of all commands:
 
 `get`: view a list of all reminders that have been set
 
-`delete n`: delete the $n^{th}$ reminder on the list provided by `get`
+`delete n`: delete the nth reminder on the list provided by `get`
 
 `set NAME [time]`: set a reminder with name `NAME` to ping in a set amount of time. `NAME` cannot contain spaces.
 Example: `set getlaundry 1 hour 3 mins`
