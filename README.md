@@ -9,14 +9,14 @@ All commands must be executed in a Direct Message channel with Re:mind.
 
 List of all commands:
 
-`get`: view a list of all reminders that have been set
+- `get`: view a list of all reminders that have been set
 
-`delete n`: delete the nth reminder on the list provided by `get`
+-`delete n`: delete the nth reminder on the list provided by `get`
 
-`set NAME [time]`: set a reminder with name `NAME` to ping in a set amount of time. `NAME` cannot contain spaces.
+- `set NAME [time]`: set a reminder with name `NAME` to ping in a set amount of time. `NAME` cannot contain spaces.
 Example: `set getlaundry 1 hour 3 mins`
 
-`set NAME [time] r [time2]`: set a reminder with name `NAME` to ping in a set amount of time and repeat every `time2`. `NAME` cannot contain spaces.
+- `set NAME [time] r [time2]`: set a reminder with name `NAME` to ping in a set amount of time and repeat every `time2`. `NAME` cannot contain spaces.
 Example: `set WORKOUT 5 mins r 2 days`
 
 ## Time Specification
