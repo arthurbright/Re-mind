@@ -92,7 +92,7 @@ errorMessages = ["Illegal syntax",
                 "Illegal syntax onii-chan",
                 "Yamete kudasai"]
 function illegal(user){
-    let str = errorMessages(Math.floor(Math.random() * errorMessages.length));
+    let str = errorMessages[Math.floor(Math.random() * errorMessages.length)];
     const embed = new Discord.MessageEmbed()
         .setColor('#f71e16')
         .setTitle(str);
