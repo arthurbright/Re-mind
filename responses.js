@@ -18,8 +18,15 @@ function sendArr(user, arr){
     str = ""
     for(i = 0; i < arr.length; i ++){
         let rem = arr[i];
-        str = str +  (i + 1) + ". " + rem.description + ": Pings in **";
-        str = str + timeToString(rem.time - Date.now()) + "**\n";
+        str = str +  (i + 1) + ".  " + rem.description + ": Pings in **";
+        str = str + timeToString(rem.time - Date.now()) + "**";
+
+        if(rem.repeat != 0){
+            str += "  |  Repeats every " + timeToString(rem.repeat);
+        }
+
+
+        str = str +  "\n";
     }
 
     const embed = new Discord.MessageEmbed()
