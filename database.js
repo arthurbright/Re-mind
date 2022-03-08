@@ -72,7 +72,6 @@ async function getReminders(userid_){
     });
 
      //do something with each one
-    //TODO
     await cursor.forEach((doc) =>{
         arr.push({
             "time": doc.time,
@@ -86,6 +85,27 @@ async function getReminders(userid_){
     return arr;
 }
 
+
+async function deleteReminder(n, userid_){
+     //query all reminders by the user
+     let cursor = db.collection('profiles').find({
+        userid: userid_
+    });
+
+    let docID;
+    await cursor.forEach((doc) =>{
+        if(n == 0){
+            docID = doc._id;
+        }
+        n--;
+    });
+
+    //delete the reminder
+    db.collection('profiles').deleteOne({"_id": docID});
+    return;
+}
+
 module.exports.sendReminders = sendReminders;
 module.exports.addReminder = addReminder;
 module.exports.getReminders = getReminders;
+module.exports.deleteReminder = deleteReminder;
