@@ -33,11 +33,26 @@ async function sendReminders(client,  curtime){
         .setTitle("Reminder: " + doc.description);
 
         user.send({embeds: [embed]});
+
+        const filter = {_id: doc._id};
+        //if the reminder is a repeating reminder
         if(doc.repeat != 0){
-            repeats.push(doc);
+            const update = {
+                $set:{
+                    time: doc.repeat + doc.time
+                }
+            }
+            db.collection('profiles').updateOne(filter, update);
+            console.log("updated");
+        }
+        else{
+            //if the reminder does not repeat, delete it
+            db.collection('profiles').deleteOne(filter);
+            console.log("deleted");
         }
     });
 
+    /*
     //delete expired reminders
     await db.collection('profiles').deleteMany({
         time: {$lt: curtime}
@@ -48,7 +63,7 @@ async function sendReminders(client,  curtime){
         let rem = repeats[i];
         rem.time += rem.repeat;
         addReminder(rem);
-    }
+    }*/
 }
 
 
